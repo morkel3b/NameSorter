@@ -3,7 +3,7 @@ mono: none
 dotnet: 3.1.416
 solution: NameSorter.sln
 install:
-- dotnet restore ./NameSorter.sln
+- dotnet restore ./NameSorter/NameSorter.sln
 script:
- - dotnet build ./NameSorter.sln
+ - dotnet build ./NameSorter/NameSorter.sln
  - dotnet test
