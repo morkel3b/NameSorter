@@ -6,4 +6,4 @@ install:
 - dotnet restore ./NameSorter/NameSorter.sln
 script:
  - dotnet build ./NameSorter/NameSorter.sln
- - dotnet test
+ - dotnet test ./NameSorter/NameSorter.sln
