@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SorterTests
 {
@@ -9,7 +10,7 @@ namespace SorterTests
         [TestMethod]
         public void Test_LoadFromFile()
         {
-            string[] fileName = new string[] { "./unsorted-names-list.txt" };
+            string[] fileName = new string[] { "unsorted-names-list.txt" };
             NameSorter.NameSorter nameSorter = new NameSorter.NameSorter();
             List<string> expected = new List<string>
             {
