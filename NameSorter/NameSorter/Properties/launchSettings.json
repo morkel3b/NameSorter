@@ -2,7 +2,7 @@
   "profiles": {
     "NameSorter": {
       "commandName": "Project",
-      "commandLineArgs": "./temppp-list.txt"
+      "commandLineArgs": "./unsorted-names-list.txt"
     }
   }
 }

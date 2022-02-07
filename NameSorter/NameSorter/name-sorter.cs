@@ -7,41 +7,65 @@ using System.Linq;
 
 namespace NameSorter
 {
-    class Program
+    interface Sorter
+    {
+        List<string> EnterStrings();
+        List<string> LoadFromFile(string[] args);
+        List<string> Sort(List<string> names);
+        void PrintStrings(List<string> names);
+        bool SaveToFile(List<string> names);
+    }
+
+    public class NameSorter : Sorter
     {
         static void Main(string[] args)
         {
+            NameSorter nameSorter = new NameSorter();
             List<string> names, sortedNames;
+            bool successfulSave = false;
             
             if (args.Length == 0)
             {
-                names = EnterNames();
+                names = nameSorter.EnterStrings();
                 if (names.Count == 0)
                     WriteLine("No names were entered");
                 else
                 {
-                    sortedNames = SortNames(names);
-                    PrintNames(sortedNames);
-                    SaveNamesToFile(sortedNames);
+                    sortedNames = nameSorter.Sort(names);
+                    nameSorter.PrintStrings(sortedNames);
+                    successfulSave = nameSorter.SaveToFile(sortedNames);
                 }
-            } else
+            } 
+            else
             {
-                WriteLine(args[0]);
-                names = LoadNamesFromFile(args);
+                //WriteLine(args[0]);
+                names = nameSorter.LoadFromFile(args);
                 if (names != null )
                 {
                     if (names.Count == 0)
                         WriteLine("File was blank");
                     else
                     {
-                        sortedNames = SortNames(names);
-                        PrintNames(sortedNames);
-                        SaveNamesToFile(sortedNames);
+                        sortedNames = nameSorter.Sort(names);
+                        nameSorter.PrintStrings(sortedNames);
+                        successfulSave = nameSorter.SaveToFile(sortedNames);
                     }
                 }
             }
+            if (successfulSave)
+            {
+                WriteLine("\nSorted names saved successfully to sorted-names-list.txt");
+                WriteLine("The program will now terminate. Press any key to close...");
+                ReadKey();
+            }
+            else
+            {
+                WriteLine("\nAn error has occured.");
+                WriteLine("The program will now terminate. Press any key to close...");
+                ReadKey();
+            }
         }
-        static List<string> EnterNames()
+        public List<string> EnterStrings()
         {
             List<string> names = new List<string>();
             string entered = "";
@@ -71,7 +95,7 @@ namespace NameSorter
             }
             return names;
         }
-        static List<string> LoadNamesFromFile(string[] args)
+        public List<string> LoadFromFile(string[] args)
         {
             if (File.Exists(args[0]))
             {
@@ -96,7 +120,7 @@ namespace NameSorter
                 return null;
             }
         }
-        static List<string> SortNames(List<string> names)
+        public List<string> Sort(List<string> names)
         {
             List<string> sortedNames = new List<string>();
             List<Name> namesList = new List<Name>();
@@ -110,23 +134,30 @@ namespace NameSorter
                 
             return sortedNames;
         }
-        static void PrintNames(List<string> names)
+        public void PrintStrings(List<string> names)
         {
-            WriteLine("\n Sorted Names: ");
+            WriteLine("\nSorted Names: ");
             WriteLine("-----------------------");
             names.ForEach(WriteLine);
         }
-        static void SaveNamesToFile(List<string> names)
+        public bool SaveToFile(List<string> names)
         {
-            string saveFileName =  "sorted-names-list.txt";
-            FileStream outfile = new FileStream(saveFileName, FileMode.Create, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(outfile);
-            foreach (string name in names)
-                writer.WriteLine(name);
-            writer.Close();
-            outfile.Close();
+            try 
+            {
+                string saveFileName = "sorted-names-list.txt";
+                FileStream outfile = new FileStream(saveFileName, FileMode.Create, FileAccess.Write);
+                StreamWriter writer = new StreamWriter(outfile);
+                foreach (string name in names)
+                    writer.WriteLine(name);
+                writer.Close();
+                outfile.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
-        
     }
 
     class Name
