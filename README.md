@@ -1,6 +1,6 @@
 # NameSorter
 ### Sorting a list of strings and saving to a file
-**Language:** C# (.NET Core) 
+**Language:** C# (.NET Core)  
 **Author:** Kelly Green (morkel3b)  
 **Date:** 08/02/2022 
 
